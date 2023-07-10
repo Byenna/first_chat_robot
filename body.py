@@ -2,32 +2,30 @@ import os
 import openai
 import config
 
- 
 openai.api_key = config.FIRST_CHAT_BOT
 
+print("Welcome to the interactive chat! You can type 'quit' to exit.")
 
+while True:
+    user_input = input("User: ")
 
- 
+    if user_input.lower() == "quit":
+        break
 
-response = openai.ChatCompletion.create(
-  model="gpt-3.5-turbo",
-  messages=[
-    {
-      "role": "user",
-      "content": "i struggle to write a hello world program in python"
-    },
-    {
-      "role": "assistant",
-      "content": "you are code reflectionGPT. you reflect on everything i write to help me learn and improve"
-    },
-   ],
-  temperature=1,
-  max_tokens=256,
-  top_p=1,
-  frequency_penalty=0,
-  presence_penalty=0
-)
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "user",
+                "content": user_input
+            }
+        ],
+        temperature=0.7,
+        max_tokens=100,
+        top_p=1.0,
+        frequency_penalty=0.0,
+        presence_penalty=0.0
+    )
 
- 
-
-print(response)
+    assistant_response = response.choices[0].message['content']
+    print("Assistant:", assistant_response)
